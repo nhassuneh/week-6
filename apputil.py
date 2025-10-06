@@ -89,6 +89,26 @@ class Genius:
 
         return pd.DataFrame(data)
 
+def save_artist_info(file_path="artists.txt", output_csv="artists_info.csv"):
+    """
+    Reads a list of artists from a text file, fetches their info from the Genius API,
+    and saves the results to a CSV file.
+    """
+    # Step 1: Read artists from text file
+    read_file = open("artists.txt")
+    artists = read_file.read().splitlines()
 
-genius = Genius(ACCESS_TOKEN)
-print(genius.get_artists(['Rihanna', 'Tycho', 'Seal', 'U2']))   
+    # Initialize API
+    genius = Genius(ACCESS_TOKEN)
+
+    # Fetch info for all artists
+    print("Fetching info for all artists, takes a little long")
+    df = genius.get_artists(artists)
+
+    # Save results to CSV file
+    df.to_csv("artists_info.csv", index=False)
+    print("Saved artist info to csv file (artists_info.csv)")
+
+    return df
+
+save_artist_info()
